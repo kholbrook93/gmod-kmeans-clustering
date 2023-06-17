@@ -211,5 +211,20 @@ if CLIENT then
 
     hook.Add("HUDPaint", "cluster", function ()
 
+        local w, h = ScrW(), ScrH()
+        surface.SetDrawColor(0, 0, 0, 255)
+        surface.DrawRect(0, 0, w, h)
+
+        for k, cluster in ipairs(clusterCentroids) do
+            local col = cluster.color
+            for k2, point in ipairs(cluster.points) do
+                surface.DrawCircle(point.x, point.y, 4, col.r, col.g, col.b, 255)
+            end
+            
+            cluster.hull = xalutils.GetConvexHull(cluster.points)
+            xalutils.DrawLines(cluster.hull)
+        end
+
+        
     end)
 end
